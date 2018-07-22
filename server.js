@@ -15,7 +15,7 @@ app.use(express.static("public"));
 const routes = require("./routes/api.js");
 app.use(routes);
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/ScrapeDB";
+const MONGODB_URI = process.env.MONGODB_URI  || "mongodb://localhost/ScrapeDB";
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
