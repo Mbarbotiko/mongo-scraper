@@ -1,10 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-// const axios = require("axios");
-// const cheerio = require("cheerio");
-// const path = require("path");
-// const db = require("./models");// move these where I will use these later.
 const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
