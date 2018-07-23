@@ -1,0 +1,11 @@
+.background-image{
+    background-image: url("../images/bg-image.jpg");
+    background-repeat: no-repeat;  
+    background-size: cover
+    
+}
+
+body{
+    font-family: 'Marcellus SC', serif;
+}
+
