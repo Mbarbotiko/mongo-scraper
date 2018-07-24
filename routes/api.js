@@ -3,14 +3,17 @@ const router = express.Router();
 const cheerio = require("cheerio");
 const path = require("path");
 const db = require("../models");
+const request = require("request");
 
 router.get("/scrape", (req, res) => {
     console.log("scrape worked")
     console.log(req);
 
     request("https://www.nytimes.com/", (err, res, body) => {
+        console.log(err)
         if (!err) {
             const $ = cheerio.load(body);
+            let count = 0;
             $('article').each(function (i, element) {
                 let count = i;
                 let result = {};
@@ -91,5 +94,38 @@ router.get("/articles", function (req, res) {
         });
 });
 
+router.put("/save/:id", function (req, res) {
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: true })
+        .then(function (data) {
+            res.json(data);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });;
+});
+
+router.put("/remove/:id", function (req, res) {
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: false })
+        .then(function (data) {
+            res.json(data)
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
+});
+
+router.get("/articles/:id", function (req, res) {
+    db.Article.find({ _id: req.params.id })
+    .populate({
+        path: 'note',
+        model: 'Note'
+    })
+    .then(function (dbArticle) {
+        res.json(dbArticle);
+    })
+    .catch(function (err) {
+        res.json(err);
+    });
+});
 
 module.exports = router;

@@ -1,4 +1,5 @@
 .background-image{
+    margin-top:10px;
     background-image: url("../images/bg-image.jpg");
     background-repeat: no-repeat;  
     background-size: cover
@@ -9,3 +10,15 @@ body{
     font-family: 'Marcellus SC', serif;
 }
 
+.navbar-custom{
+    padding-top:50px;
+    /* padding-bottom:100px; */
+}
+
+.nav-link{
+    font-size: 3vh;
+}
+
+.fixed-bottom{
+    font-size:2vh;
+}
