@@ -1,16 +1,23 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+var mongoose = require("mongoose");
 const router = express.Router();
 const cheerio = require("cheerio");
-const path = require("path");
 const db = require("../models");
 const request = require("request");
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
+mongoose.connect("mongodb://localhost/ScrapeDB");
+
 
 router.get("/scrape", (req, res) => {
     console.log("scrape worked")
     console.log(req);
+    //scrape is not working  an error runs when I access this route.
 
     request("https://www.nytimes.com/", (err, res, body) => {
-        console.log(err)
+        console.log(res)
         if (!err) {
             const $ = cheerio.load(body);
             let count = 0;
@@ -32,6 +39,8 @@ router.get("/scrape", (req, res) => {
                         .children('ul')
                         .text().trim();
 
+                        //cherios scraping the page collecting heading, link &summary
+
                 if (result.title && result.link && result.summary) {
                     db.Article.create(result)
                         .then(function (dbArticle) {
@@ -44,7 +53,7 @@ router.get("/scrape", (req, res) => {
 
             });
 
-            res.redirect('/')
+            res.redirect("/");
 
         }
         else if (err){
